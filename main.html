@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Twitter</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="main.css">
+</head>
+<body class="main">
+	<nav class="navbar navbar-expand-sm bg-light">
+		<!-- Links -->
+		<ul class="navbar-nav">
+			<li class="nav-item">
+			<a class="nav-link" href="#">Home</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="#">Moments</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="#">Notifications</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Messages</a>
+			</li>
+		</ul>
+	</nav>
+	<div class="container-fluid" id="main">			  
+		<div class="row flex-nowrap">
+			<div class="col-md">
+				<div class="card user" style="width: 18rem;">
+					<img class="card-img-top" src="blue.png" alt="Card image cap">
+					<div class="card-body">
+						<h3 class="card-title">Joe Smith</h3>
+						<h6 class="card-subtitle"><a href="#"  class="handle">@joe-smith</a></h6>
+						<div class="tweet-num">
+							<h5>Tweets</h5><p>8</p>
+						</div>
+						<div class="follow-num">
+							<h5>Followers</h5><p>10</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mid-content">
+				<div class="tweet-form-container">
+					<div class="form-group tweet">
+						<textarea class="form-control expand" id="tweet">Tweet..</textarea>
+						<button class="btn btn-primary" type="submit" id="tweet-send">Tweet!</button>
+					</div>
+				</div>
+				<div class="card see-content">
+					<div class="card-body">
+						<h5 class="card-title name">Jane Doe</h5>
+						<h6 class="card-subtitle handle"><a href="#">@jane-doe</a></h6>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecena.</p>
+					</div>
+				</div>
+				<div class="card see-content">
+					<div class="card-body">
+						<h5 class="card-title name">Bill bob</h5>
+						<h6 class="card-subtitle handle"><a href="#">@billy-boy</a></h6>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecena.</p>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-md">
+				
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

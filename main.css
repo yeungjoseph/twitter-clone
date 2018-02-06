@@ -1,0 +1,63 @@
+a, a:hover, a:visited {
+    text-decoration: none;
+}
+
+body.main {
+    background-color: rgb(227, 233, 233);
+}
+
+div#main {
+    /*background-color: white;*/
+    width: 90%;
+    padding-top: 20px;
+}
+
+.mid-content {
+    min-width: 400px;
+}
+
+div.card.user {
+    text-align: center;
+}
+
+img.card-img-top {
+    height: 4rem;
+}
+
+.tweet-num {
+    float: left;
+}
+
+.follow-num {
+    float: right;
+}
+
+.tweet-form-container {
+    background-color: rgba(19, 87, 139, 0.247);
+    width: 100%;
+    height: 150px;
+}
+
+.form-group.tweet {
+    margin: auto;
+    width: 70%;
+    padding-top: 15px;
+}
+
+.name, .handle {
+    display: inline;
+}
+
+.handle a, .handle {
+    color: gray;
+}
+
+#tweet-send {
+    float: right;
+    margin-top: 5px;
+}
+
+.card.see-content {
+    margin-top: 5px;
+    width: 100%;
+}

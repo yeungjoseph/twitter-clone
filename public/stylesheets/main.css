@@ -16,7 +16,7 @@ div#main {
     min-width: 400px;
 }
 
-div.card.user {
+div#user {
     text-align: center;
 }
 
@@ -28,14 +28,20 @@ img.card-img-top {
     float: left;
 }
 
-.follow-num {
+.follower-num {
     float: right;
 }
 
+.follower-num, .following-num, .tweet-num {
+    margin-top: 15px;
+    margin-bottom: -10px;
+    display: inline-block;
+}
+
 .tweet-form-container {
-    background-color: rgba(19, 87, 139, 0.247);
+    background-color: rgba(143, 236, 236, 0.384);
     width: 100%;
-    height: 150px;
+    height: 130px;
 }
 
 .form-group.tweet {
@@ -44,11 +50,11 @@ img.card-img-top {
     padding-top: 15px;
 }
 
-.name, .handle {
+.name, .handle, .user-handle {
     display: inline;
 }
 
-.handle a, .handle {
+.handle a, .handle, .user-handle {
     color: gray;
 }
 

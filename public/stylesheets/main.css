@@ -1,9 +1,19 @@
+html, body {
+    height: 100%;
+}
+
 a, a:hover, a:visited {
     text-decoration: none;
 }
 
 body.main {
     background-color: rgb(227, 233, 233);
+}
+
+nav.navbar a {
+    color: gray;
+    font-weight: bold;
+    font-size: 0.8rem;
 }
 
 div#main {
@@ -66,4 +76,21 @@ img.card-img-top {
 .card.see-content {
     margin-top: 5px;
     width: 100%;
+}
+
+/* Begin login page styling */
+.login-left {
+    color: white;
+    background-color: rgb(73, 149, 192);
+}
+
+div.info {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20%;
+    margin-left: 30px;
+}
+
+.login-right {
+    background-color: white;
 }

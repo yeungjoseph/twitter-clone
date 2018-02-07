@@ -54,7 +54,7 @@ img.card-img-top {
     display: inline;
 }
 
-.handle a, .handle, .user-handle {
+.handle a, a.user-handle {
     color: gray;
 }
 

@@ -93,4 +93,24 @@ div.info {
 
 .login-right {
     background-color: white;
+    padding-top: 20px;
+    padding-left: 50px;
+}
+
+#login-form input {
+    margin-right: 7px;
+}
+
+div.reg-contain {
+    margin: auto;
+    margin-top: 130px;
+    max-width: 400px;
+}
+
+#register-form input {
+    margin-bottom: 12px;
+}
+
+#register-form input[type=submit] {
+    margin-top: 8px;
 }

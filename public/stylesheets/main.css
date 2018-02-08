@@ -30,8 +30,17 @@ div#user {
     text-align: center;
 }
 
-img.card-img-top {
-    height: 4rem;
+img.profile-img {
+    width: 100px;
+    height: 100px;
+}
+
+#user img.card-img-top {
+    height: 6rem;
+}
+
+.card-body.profile {
+    margin-top: -85px;
 }
 
 .tweet-num {

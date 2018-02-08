@@ -1,5 +1,6 @@
 var express = require('express');
 var tweetModel = require('../models/tweet');
+var userModel = require('../models/user');
 
 var router = express.Router();
 
@@ -30,4 +31,32 @@ router.get('/login', function(req, res) {
   res.render('login');
 });
 
-module.exports = router;
+router.post('/login', function(req, res) {
+  userModel.findOne({ email: req.body.email }, function (err, user) {
+    if (err) 
+        return res.status(500).send(err);
+    if (user == null || req.body.password != user.password)
+        res.render('login', { login_error: 'Incorrect email or password.' });
+    else {
+        res.redirect('/');
+    }
+  });
+});
+
+router.post('/user', function(req, res) {
+    var newUser = new userModel({
+        display_name: req.body.display_name,
+        handle: req.body.handle,
+        email: req.body.email,
+        password: req.body.password
+    });
+    newUser.save(function(err, user) {
+        if (err) {
+            console.log(err);
+            return res.render('login', { reg_error: 'Username or email already taken!' });
+        }
+        res.redirect('/');
+    });
+});
+
+module.exports = router; 

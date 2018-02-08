@@ -16,6 +16,11 @@
             </div>
         </div>
         <div class="col-6 login-right">
+            <% if (typeof login_error !== 'undefined') { %>
+                <div class="alert alert-danger">
+                    <strong>Login error: </strong><%= login_error %>
+                </div> 
+            <% } %>
             <form class="form-inline" id="login-form" method="POST" action="/login">
 				<input class="form-control" type="email" name="email" placeholder="Email" required> <br/>
 				<input class="form-control" type="password" name="password" placeholder="Password" required /> <br/>
@@ -24,8 +29,15 @@
             <div class="reg-contain">
                 <h3>See what's happening in the world right now</h3> <br/>
                 <h5>Join Twitter today.</h5> <br/>
+                <% if (typeof reg_error !== 'undefined') { %>
+                    <div class="alert alert-danger">
+                        <strong>Registration error: </strong><%= reg_error %>
+                    </div> 
+                <% } %>
                 <form id="register-form" method="POST" action="/user">
-                    <input class="form-control" type="email" name="email" placeholder="Email" required> 
+                    <input class="form-control" type="text" name="display_name" placeholder="Display Name" required> 
+                    <input class="form-control" type="text" name="handle" placeholder="@username (Must be unique)" required>
+                    <input class="form-control" type="email" name="email" placeholder="Email" required>  
                     <input class="form-control" type="password" name="password" placeholder="Password" required />
                     <input class="btn btn-primary" type="submit" value="Get Started"/>
                 </form>

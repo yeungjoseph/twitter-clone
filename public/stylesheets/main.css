@@ -87,6 +87,13 @@ img.profile-img {
     width: 100%;
 }
 
+img.user-img {
+    height: 30px;
+    width: 30px;
+    float: left;
+    margin-right: 7px;
+}
+
 /* Begin login page styling */
 .login-left {
     color: white;

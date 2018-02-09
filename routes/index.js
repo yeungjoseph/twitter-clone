@@ -1,6 +1,7 @@
 var express = require('express');
 var tweetModel = require('../models/tweet');
 var auth = require('../utils/auth');
+var io = require('../io');
 
 var router = express.Router();
 
@@ -25,7 +26,9 @@ router.post('/tweet', function(req, res) {
       console.log(err);
       return res.status(500).send(err);
     }
-    res.end();
+    // Broadcast to socket listeners
+    io.instance().emit('newTweet', { data: page.toObject() });
+    res.status(201).json(page);
   });
 });
 

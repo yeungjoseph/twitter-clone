@@ -16,7 +16,7 @@
 			<a class="nav-link nav-item" href="#">Messages</a>
 		</div>
 		<div class="navbar-nav">
-			<a class="nav-link nav-item" href="/login">Login</a>
+			<a class="nav-link nav-item" href="/login">Logout</a>
 		</div>
 	</nav>
 	<div class="container-fluid" id="main">			  
@@ -67,8 +67,17 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	<script src="/socket.io/socket.io.js"></script>
+
 	<script>
 		$(function() {
+			var socket = io();
+			socket.on('newTweet', function(tweet) {
+				console.log(tweet);
+				// Add new tweet to the DOM
+			});
+
 			$("#tweet-send").click(function(e) {
 				var author = $(".username").text();
 				var handle = $(".user-handle").text();
@@ -84,6 +93,7 @@
 				});
 				$(".tweet-form-container").after(`<div class="card see-content">
 					<div class="card-body">
+						<img class="user-img rounded-circle" src="images/dawg.jpg">
 						<h5 class="card-title name">${author}</h5>
 						<h6 class="card-subtitle handle"><a href="#">${handle}</a></h6>
 						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>

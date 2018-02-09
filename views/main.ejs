@@ -73,9 +73,9 @@
 	<script>
 		$(function() {
 			var socket = io();
+
 			socket.on('newTweet', function(tweet) {
-				console.log(tweet);
-				// Add new tweet to the DOM
+				createTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
 			});
 
 			$("#tweet-send").click(function(e) {
@@ -91,6 +91,11 @@
 						content: content,
 					},
 				});
+				createTweet(author, handle, content);
+				$("#tweet").val("");
+			});
+
+			var createTweet = function(author, handle, content) {
 				$(".tweet-form-container").after(`<div class="card see-content">
 					<div class="card-body">
 						<img class="user-img rounded-circle" src="images/dawg.jpg">
@@ -99,8 +104,7 @@
 						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
 					</div>
 				</div>`);
-				$("#tweet").val("");
-			});
+			};
 		});
 	</script>
 </body>

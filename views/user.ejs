@@ -10,7 +10,7 @@
 	<nav class="navbar navbar-expand-md bg-light">
 		<!-- Links -->
 		<div class="navbar-nav mr-auto">
-			<a class="nav-link nav-item" href="#">Home</a>
+			<a class="nav-link nav-item" href="/">Home</a>
 			<a class="nav-link nav-item" href="#">Moments</a>
 			<a class="nav-link nav-item" href="#">Notifications</a>
 			<a class="nav-link nav-item" href="#">Messages</a>
@@ -26,27 +26,28 @@
 					<img class="card-img-top" src="/images/blue.png" alt="Card image cap">
 					<div class="card-body profile">
 						<img class="profile-img rounded-circle" src="/images/dawg.jpg">
-						<h3 class="card-title username"><%= user.display_name %></h3>
-						<h6 class="card-subtitle"><a href="/user/<%= user.handle %>" class="user-handle"><%= user.handle %></a></h6>
+						<h3 class="card-title username"><%= profile.display_name %></h3>
+						<h6 class="card-subtitle"><a href="/user/<%= profile.handle %>" class="user-handle"><%= profile.handle %></a></h6>
 						<div class="tweet-num">
 							<h6>Tweets</h6><p>8</p>
 						</div>
 						<div class="following-num">
-								<h6>Following</h6><p><%= user.following.length %></p>
+								<h6>Following</h6><p><%= profile.following.length %></p>
 							</div>
 						<div class="follower-num">
 							<h6>Followers</h6><p>10</p>
 						</div>
 					</div>
 				</div>
+				<div class="follow-container">
+					<% if (!user.following.includes(profile.handle)) { %>
+						<button class="btn btn-primary follow-btn">Follow</button>
+					<% }  else { %>
+						<button class="btn btn-primary unfollow-btn">Unfollow</button>
+					<% } %>
+				</div>			
 			</div>
 			<div class="col-md-6 mid-content">
-				<div class="tweet-form-container">
-					<div class="form-group tweet">
-						<textarea class="form-control" id="tweet" placeholder="Tweet.."></textarea>
-						<button class="btn btn-primary" type="submit" id="tweet-send">Tweet!</button>
-					</div>
-				</div>
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
 					<div class="card see-content">
 						<div class="card-body">
@@ -67,44 +68,26 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	
-	<script src="/socket.io/socket.io.js"></script>
-
+	  
 	<script>
 		$(function() {
-			var socket = io();
-
-			socket.on('newTweet', function(tweet) {
-				createTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
+			$(".follow-container").on("click", ".follow-btn", function() {
+				// Send ajax POST to follow user
+				// DOM manipulation to show correct button
+				var button = $(this);
+				button.removeClass("follow-btn");
+				button.addClass("unfollow-btn");
+				button.text("Unfollow");
 			});
+			$(".follow-container").on("click", ".unfollow-btn", function() {
+				// send ajax POST to unfollow user
+				// DOM manipulation to show correct button
+				var button = $(this);
+				button.removeClass("unfollow-btn");
+				button.addClass("follow-btn");
+				button.text("Follow");
 
-			$("#tweet-send").click(function(e) {
-				var author = $(".username").text();
-				var handle = $(".user-handle").text();
-				var content = $("#tweet").val();
-				$.ajax({
-					method: 'POST',
-					url: '/tweet',
-					data: {
-						author: author,
-						handle: handle,
-						content: content,
-					},
-				});
-				//createTweet(author, handle, content);
-				$("#tweet").val("");
 			});
-
-			var createTweet = function(author, handle, content) {
-				$(".tweet-form-container").after(`<div class="card see-content">
-					<div class="card-body">
-						<img class="user-img rounded-circle" src="images/dawg.jpg">
-						<h5 class="card-title name">${author}</h5>
-						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
-						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
-					</div>
-				</div>`);
-			};
 		});
 	</script>
 </body>

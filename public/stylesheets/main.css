@@ -130,3 +130,19 @@ div.reg-contain {
 #register-form input[type=submit] {
     margin-top: 8px;
 }
+
+/* Profile page styling */
+.profile-stats {
+    text-align: center;
+}
+
+img.profile-img-big {
+    width: 200px;
+    height: 200px;
+}
+
+div.follow-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}

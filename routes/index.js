@@ -1,5 +1,6 @@
 var express = require('express');
 var tweetModel = require('../models/tweet');
+var userModel = require('../models/user');
 var auth = require('../utils/auth');
 var io = require('../io');
 
@@ -34,6 +35,23 @@ router.post('/tweet', function(req, res) {
     // Broadcast to socket listeners
     io.instance().emit('newTweet', { data: page.toObject() });
     res.status(201).json(page);
+  });
+});
+
+router.get('/user/:handle', function(req, res, next) {
+  userModel.findOne({ handle: req.params.handle.trim() }, 
+  function(err, user) {
+      if (err) return res.status(500).send(err);
+      if (user) {
+        tweetModel.find({ handle: req.params.handle.trim() },
+         function(err, tweets) {
+            if (err) return res.status(500).send(err);
+            res.render('user', { tweets: tweets, profile: user });
+          });
+      }
+      else {
+          next();
+      }
   });
 });
 

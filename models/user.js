@@ -5,7 +5,7 @@ var schema = mongoose.Schema({
     handle: { type: String, required: true, unique: true },
 	email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
-    following_handles: [{ type: String }],
+    following: [{ type: String }],
 });
 
 module.exports = mongoose.model('users', schema);

@@ -15,6 +15,11 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/logout', function (req, res) {
+	req.session.reset();
+	res.redirect('/login');
+});
+
 router.post('/tweet', function(req, res) {
   var newTweet = new tweetModel({
     author: req.body.author,

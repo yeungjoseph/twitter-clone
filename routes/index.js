@@ -32,8 +32,9 @@ router.post('/tweet', function(req, res) {
       console.log(err);
       return res.status(500).send(err);
     }
-    // Broadcast to socket listeners
-    io.instance().emit('newTweet', { data: page.toObject() });
+	// Broadcast to socket listeners
+	var room = req.body.handle;
+	io.instance().sockets.in(room).emit('newTweet', { data: page.toObject() });
     res.status(201).json(page);
   });
 });

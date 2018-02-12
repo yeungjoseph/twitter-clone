@@ -48,6 +48,7 @@
 					</div>
 				</div>
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
+					<% if (user.following.includes(tweets[i].handle) || tweets[i].handle === user.handle) { %>
 					<div class="card see-content">
 						<div class="card-body">
 							<img class="user-img rounded-circle" src="/images/dawg.jpg">
@@ -56,6 +57,7 @@
 							<p class="card-text"><%- tweets[i].content.replace(/\n/g, '<br/>') %></p>
 						</div>
 					</div>
+					<% } %>
 				<% } %>
 			</div>
 			<div class="col-md">

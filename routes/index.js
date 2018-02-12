@@ -38,6 +38,49 @@ router.post('/tweet', function(req, res) {
   });
 });
 
+router.post('/user/follow/:handle', function(req, res, next) {
+	userModel.findById(req.user._id, function(err, user) {
+		if (err) return res.status(500).send(err);
+		if (user) {
+			// If the user is not already following the person, add them
+			// to the following list
+			var new_follow = req.params.handle.trim()
+			if (!user.following.includes(new_follow))
+			{
+				user.following.push(new_follow);
+				user.save(function(err, user){
+					res.end();
+				});
+			}
+		}
+		else {
+			next();
+		}
+	});
+});
+
+router.delete('/user/follow/:handle', function(req, res, next) {
+	userModel.findById(req.user._id, function(err, user) {
+		if (err) return res.status(500).send(err);
+		if (user) {
+			// If the user is following the person, delete them from
+			// the following list
+			var old_follow = req.params.handle.trim()
+			if (user.following.includes(old_follow))
+			{
+				var index = user.following.indexOf(old_follow);
+				user.following.splice(index, 1);
+				user.save(function(err, user){
+					res.end();
+				});
+			}
+		}
+		else {
+			next();
+		}
+	});
+});
+
 router.get('/user/:handle', function(req, res, next) {
   userModel.findOne({ handle: req.params.handle.trim() }, 
   function(err, user) {

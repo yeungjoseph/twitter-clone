@@ -39,13 +39,15 @@
 						</div>
 					</div>
 				</div>
+				<% if (user.handle !== profile.handle) { %>
 				<div class="follow-container">
 					<% if (!user.following.includes(profile.handle)) { %>
-						<button class="btn btn-primary follow-btn">Follow</button>
+						<button class="btn btn-primary follow-btn" data-user-handle="<%= profile.handle %>">Follow</button>
 					<% }  else { %>
-						<button class="btn btn-primary unfollow-btn">Unfollow</button>
+						<button class="btn btn-primary unfollow-btn" data-user-handle="<%= profile.handle %>">Unfollow</button>
 					<% } %>
-				</div>			
+				</div>	
+				<% } %>		
 			</div>
 			<div class="col-md-6 mid-content">
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
@@ -73,20 +75,34 @@
 		$(function() {
 			$(".follow-container").on("click", ".follow-btn", function() {
 				// Send ajax POST to follow user
-				// DOM manipulation to show correct button
 				var button = $(this);
-				button.removeClass("follow-btn");
-				button.addClass("unfollow-btn");
-				button.text("Unfollow");
+				var handle = $(this).attr('data-user-handle');
+				$.ajax({
+					method: 'POST',
+					url: `/user/follow/${handle}`,
+				})
+				// DOM manipulation to show correct button
+				.done(function() {
+					button.removeClass("follow-btn");
+					button.addClass("unfollow-btn");
+					button.text("Unfollow");
+				});
 			});
+
 			$(".follow-container").on("click", ".unfollow-btn", function() {
 				// send ajax POST to unfollow user
-				// DOM manipulation to show correct button
 				var button = $(this);
-				button.removeClass("unfollow-btn");
-				button.addClass("follow-btn");
-				button.text("Follow");
-
+				var handle = $(this).attr('data-user-handle');
+				$.ajax({
+					method: 'DELETE',
+					url: `/user/follow/${handle}`,
+				})
+				// DOM manipulation to show correct button
+				.done(function() {
+					button.removeClass("unfollow-btn");
+					button.addClass("follow-btn");
+					button.text("Follow");
+				});
 			});
 		});
 	</script>

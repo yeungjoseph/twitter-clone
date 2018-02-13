@@ -55,6 +55,7 @@
 							<h5 class="card-title name"><%= tweets[i].author %></h5>
 							<h6 class="card-subtitle handle"><a href="/user/<%= tweets[i].handle %>"><%= tweets[i].handle %></a></h6>
 							<p class="card-text"><%- tweets[i].content.replace(/\n/g, '<br/>') %></p>
+							<button>Likes: <%= tweets[i].likes.length %></button>
 						</div>
 					</div>
 					<% } %>
@@ -104,6 +105,7 @@
 						<h5 class="card-title name">${author}</h5>
 						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
 						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+						<button>Likes: 1</button>
 					</div>
 				</div>`);
 			};

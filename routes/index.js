@@ -25,7 +25,8 @@ router.post('/tweet', function(req, res) {
   var newTweet = new tweetModel({
     author: req.body.author,
     handle: req.body.handle,
-    content: req.body.content,
+		content: req.body.content,
+		likes: [req.user.handle],
   });
   newTweet.save(function(err, page) {
     if (err) {

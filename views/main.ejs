@@ -76,14 +76,6 @@
 		$(function() {
 			var socket = io();
 
-			socket.on('connect', function() {
-				var following = "<%= user.following %>"
-				following.split(',').forEach(function(room) {
-					//console.log(room);
-					socket.emit('room', room);
-				});
-			});
-
 			socket.on('newTweet', function(tweet) {
 				createTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
 			});

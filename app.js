@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('client-sessions');
+var config = require('./config');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -34,12 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session handling
-app.use(session({
-  cookieName: 'session', // Names the request object req.session
-  secret: 'xqKBPWdJvjbC9zRi3m6T',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
-}));
+app.use(session(config.session));
+
 app.use(function(req, res, next) {
   if (req.session && req.session.user) {
     User.findById(req.session.user._id, function(err, user) {

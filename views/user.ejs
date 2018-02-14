@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Twitter</title>
+	<title>Twitter</title>
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="/stylesheets/main.css">
 </head>
@@ -52,12 +53,16 @@
 			<div class="col-md-6 mid-content">
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
 					<div class="card see-content">
-						<div class="card-body">
+						<div class="card-body post" tweetID="<%= tweets[i]._id %>">
 							<img class="user-img rounded-circle" src="/images/dawg.jpg">
 							<h5 class="card-title name"><%= tweets[i].author %></h5>
 							<h6 class="card-subtitle handle"><a href="/user/<%= tweets[i].handle %>"><%= tweets[i].handle %></a></h6>
 							<p class="card-text"><%- tweets[i].content.replace(/\n/g, '<br/>') %></p>
-							<button>Likes: <%= tweets[i].likes.length %></button>
+							<% if (tweets[i].likes.includes(user.handle)) { %>
+							<button class="btn-unlike" numlikes="<%= tweets[i].likes.length %>"><span class="fas fa-heart red"></span> <%= tweets[i].likes.length %></button>
+							<% } else { %>
+							<button class="btn-like" numlikes="<%= tweets[i].likes.length %>"><span class="far fa-heart red"></span> <%= tweets[i].likes.length %></button>
+							<% } %>
 						</div>
 					</div>
 				<% } %>
@@ -71,7 +76,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	  
+	
 	<script>
 		$(function() {
 			$(".follow-container").on("click", ".follow-btn", function() {
@@ -105,6 +110,45 @@
 					button.text("Follow");
 				});
 			});
+
+			$(".post").on('click', '.btn-like', function(e) {
+				var button = $(this);
+				var likes = Number(button.attr("numlikes"));
+				var tweetID = button.parent().attr("tweetID");
+				var handle = $(".user-handle").text();
+
+				$.ajax({
+					method: 'POST',
+					url: `/tweet/like/${tweetID}`,
+					data : { handle: handle }
+				})
+				.done(function() {
+					button.attr("numlikes", likes + 1);
+					button.html(`<span class="fas fa-heart red"></span> ${likes+1}`);
+					button.removeClass('btn-like');
+					button.addClass('btn-unlike');
+				});		
+			});
+
+			$(".post").on('click', '.btn-unlike', function(e) {
+				var button = $(this);
+				var likes = Number(button.attr("numlikes"));
+				var tweetID = button.parent().attr("tweetID");
+				var handle = $(".user-handle").text();
+
+				$.ajax({
+					method: 'DELETE',
+					url: `/tweet/like/${tweetID}`,
+					data: { handle: handle }
+				})
+				.done(function() {
+					button.attr("numlikes", likes - 1);
+					button.html(`<span class="far fa-heart red"></span> ${likes-1}`);
+					button.removeClass('btn-unlike');
+					button.addClass('btn-like');
+				});
+			});
+
 		});
 	</script>
 </body>

@@ -25,11 +25,10 @@ router.post('/tweet', function(req, res) {
   var newTweet = new tweetModel({
     author: req.body.author,
     handle: req.body.handle,
-		content: req.body.content,
-		likes: [req.user.handle],
+    content: req.body.content,
   });
   newTweet.save(function(err, page) {
-    if (err) {
+    if (err) { 
       console.log(err);
       return res.status(500).send(err);
     }
@@ -98,6 +97,37 @@ router.get('/user/:handle', function(req, res, next) {
           next();
       }
   });
+});
+
+router.post('/tweet/like/:id', function(req, res, next) {
+	tweetModel.findByIdAndUpdate(req.params.id.trim(), 
+	{$addToSet: {likes: req.user.handle}}, function(err, tweet) {
+		if (err) return res.status(500).send(err);
+		if (tweet)
+			res.end();
+		else
+			next();
+	});
+});
+
+router.delete('/tweet/like/:id', function(req, res, next) {
+	tweetModel.findById(req.params.id.trim(), function(err, tweet) {
+		if (err) return res.status(500).send(err);
+		if (tweet) {
+			var handle = req.user.handle;
+			if (tweet.likes.includes(handle))
+			{
+				var index = tweet.likes.indexOf(handle);
+				tweet.likes.splice(index, 1);
+				tweet.save(function(err, tweet){
+					res.end();
+				});
+			}
+		}
+		else {
+			next();
+		}
+	});
 });
 
 module.exports = router; 

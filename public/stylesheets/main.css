@@ -35,6 +35,10 @@ img.profile-img {
     height: 100px;
 }
 
+.red {
+    color: red;
+}
+
 #user img.card-img-top {
     height: 6rem;
 }
@@ -80,6 +84,12 @@ img.profile-img {
 #tweet-send {
     float: right;
     margin-top: 5px;
+}
+
+.btn-like, .btn-like:focus, .btn-unlike, .btn-unlike:focus {
+    border: none;
+    background-color: inherit;
+    outline: none;
 }
 
 .card.see-content {

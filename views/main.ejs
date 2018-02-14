@@ -69,24 +69,31 @@
 	<script>
 		$(function() {
 			var socket = io();
-			var userID = "<%= user._id %>"
+			var userHandle = "<%= user.handle %>"
 
 			socket.on('newTweet', function(tweet) {
-				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content, tweet.data._id);
+				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content,
+				tweet.data._id, 1);
 			});
 
 			// Show all tweets of people that the user is following
 			$.ajax({
 				method: 'GET',
-				url: `/home_tweet/${userID}`
+				url: '/home_tweet'
 			})
 			.done(function(tweets) {
 				$('.tweet-container > i').remove();
 				tweets.forEach(function(tweet) {
 					// if liked
-					createTweet(tweet.author, tweet.handle, tweet.content, 
-						tweet._id);
+					if (tweet.likes.includes(userHandle)) {
+						showLikedTweet(tweet.author, tweet.handle, tweet.content, 
+						tweet._id, tweet.likes.length);
+					}
 					// if not liked
+					else {
+						showNewTweet(tweet.author, tweet.handle, tweet.content, 
+						tweet._id, tweet.likes.length);
+					}
 				});
 			});
 
@@ -104,35 +111,34 @@
 					},
 				})
 				.done(function(newTweet) {
-					createTweet(author, handle, content, newTweet._id);
+					showLikedTweet(author, handle, content, newTweet._id, 1);
 					$("#tweet").val("");
 					// Increment tweet counter
 					var twcount = Number($("#twcount").text());
 					$("#twcount").text(twcount + 1);
 				});
 			});
-
-			var createTweet = function(author, handle, content, id) {
-				$(".tweet-container").prepend(`<div class="card see-content">
-					<div class="card-body" tweetID="${id}">
-						<img class="user-img rounded-circle" src="/images/dawg.jpg">
-						<h5 class="card-title name">${author}</h5>
-						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
-						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
-						<button class="btn-unlike" numlikes="1"><span class="fas fa-heart red"></span> 1</button>
-					</div>
-				</div>`);
-			};
 		});
 
-		var showNewTweet = function(author, handle, content, id) {
+		var showLikedTweet = function(author, handle, content, id, likes) {
 			$(".tweet-container").prepend(`<div class="card see-content">
 				<div class="card-body" tweetID="${id}">
 					<img class="user-img rounded-circle" src="/images/dawg.jpg">
 					<h5 class="card-title name">${author}</h5>
 					<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
 					<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
-					<button class="btn-like" numlikes="1"><span class="far fa-heart red"></span> 1</button>
+					<button class="btn-unlike" numlikes="${likes}"><span class="fas fa-heart red"></span> ${likes}</button>
+				</div>
+			</div>`);
+			};
+		var showNewTweet = function(author, handle, content, id, likes) {
+			$(".tweet-container").prepend(`<div class="card see-content">
+				<div class="card-body" tweetID="${id}">
+					<img class="user-img rounded-circle" src="/images/dawg.jpg">
+					<h5 class="card-title name">${author}</h5>
+					<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
+					<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+					<button class="btn-like" numlikes="${likes}"><span class="far fa-heart red"></span> ${likes}</button>
 				</div>
 			</div>`);
     	};

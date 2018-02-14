@@ -17,13 +17,21 @@ router.get('/logout', function (req, res) {
 	req.session.reset();
 	res.redirect('/login');
 });
-router.get('/home_tweet/:id', function(req, res, next) {
+
+router.get('/home_tweet', function(req, res, next) {
 	var show = req.user.following;
 	show.push(req.user.handle);
   tweetModel.find({ handle: {$in: show}}, function(err, tweets) {
 		if (err) return res.status(500).send(err);
     res.json(tweets);
   });
+});
+
+router.get('/user/:handle/tweets', function(req, res, next) {
+	tweetModel.find({ handle: req.params.handle.trim() }, function(err, tweets) {
+		if (err) return res.status(500).send(err);
+		res.json(tweets);
+	});
 });
 
 router.post('/tweet', function(req, res) {
@@ -130,10 +138,11 @@ router.delete('/tweet/like/:id', function(req, res, next) {
 			{
 				var index = tweet.likes.indexOf(handle);
 				tweet.likes.splice(index, 1);
-				tweet.save(function(err, tweet){
-					res.end();
+				tweet.save(function(err, tweet) {
+					if (err) return res.status(500).send(err);
 				});
 			}
+			return res.end();
 		}
 		else {
 			next();

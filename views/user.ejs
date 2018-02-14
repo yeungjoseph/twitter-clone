@@ -72,7 +72,7 @@
 	<script>
 		$(function() {
 			var socket = io();
-			var userHandle = "<%= user.handle %>"
+			var userHandle = "<%= profile.handle %>"
 
 			socket.on('newTweet', function(tweet) {
 				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content,

@@ -51,6 +51,7 @@
 				<% } %>		
 			</div>
 			<div class="col-md-6 mid-content">
+				<div class="tweet-container">
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
 					<div class="card see-content">
 						<div class="card-body post" tweetID="<%= tweets[i]._id %>">
@@ -66,6 +67,7 @@
 						</div>
 					</div>
 				<% } %>
+				</div>
 			</div>
 			<div class="col-md">
 			</div>
@@ -77,10 +79,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="/javascripts/likes.js"></script>
 
 	<script>
 		$(function() {
+			var socket = io();
+
+			socket.on('newTweet', function(tweet) {
+				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
+			});
+
 			$(".follow-container").on("click", ".follow-btn", function() {
 				// Send ajax POST to follow user
 				var button = $(this);
@@ -112,6 +121,18 @@
 					button.text("Follow");
 				});
 			});
+
+			var showNewTweet = function(author, handle, content) {
+				$(".tweet-container").prepend(`<div class="card see-content">
+					<div class="card-body">
+						<img class="user-img rounded-circle" src="/images/dawg.jpg">
+						<h5 class="card-title name">${author}</h5>
+						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
+						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+						<button class="btn-like" numlikes="1"><span class="far fa-heart red"></span> 1</button>
+					</div>
+				</div>`);
+			};
 		});
 	</script>
 </body>

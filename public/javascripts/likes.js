@@ -1,5 +1,5 @@
-$(function(){
-    $(".post").on('click', '.btn-like', function(e) {
+$(function() {
+    $(".tweet-container").on('click', '.btn-like', function(e) {
         var button = $(this);
         var likes = Number(button.attr("numlikes"));
         var tweetID = button.parent().attr("tweetID");
@@ -18,7 +18,7 @@ $(function(){
         });		
     });
 
-    $(".post").on('click', '.btn-unlike', function(e) {
+    $(".tweet-container").on('click', '.btn-unlike', function(e) {
         var button = $(this);
         var likes = Number(button.attr("numlikes"));
         var tweetID = button.parent().attr("tweetID");

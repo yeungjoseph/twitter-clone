@@ -28,15 +28,15 @@ router.post('/tweet', function(req, res) {
 		content: req.body.content,
 		likes: [req.user.handle]
   });
-  newTweet.save(function(err, page) {
+  newTweet.save(function(err, tweet) {
     if (err) { 
       console.log(err);
       return res.status(500).send(err);
     }
 	// Broadcast to socket listeners
 	var room = req.body.handle;
-	io.instance().sockets.in(room).emit('newTweet', { data: page.toObject() });
-    res.status(201).json(page);
+	io.instance().sockets.in(room).emit('newTweet', { data: tweet.toObject() });
+    res.status(201).json(tweet);
   });
 });
 

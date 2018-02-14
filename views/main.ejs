@@ -48,6 +48,7 @@
 						<button class="btn btn-primary" type="submit" id="tweet-send">Tweet!</button>
 					</div>
 				</div>
+				<div class="tweet-container">
 				<% for (var i = tweets.length - 1; i > -1; i--) { %>
 					<% if (user.following.includes(tweets[i].handle) || tweets[i].handle === user.handle) { %>
 					<div class="card see-content">
@@ -65,6 +66,7 @@
 					</div>
 					<% } %>
 				<% } %>
+				</div>
 			</div>
 			<div class="col-md">
 			</div>
@@ -84,7 +86,7 @@
 			var socket = io();
 
 			socket.on('newTweet', function(tweet) {
-				createTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
+				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
 			});
 
 			$("#tweet-send").click(function(e) {
@@ -107,7 +109,7 @@
 			var createTweet = function(author, handle, content) {
 				$(".tweet-form-container").after(`<div class="card see-content">
 					<div class="card-body">
-						<img class="user-img rounded-circle" src="images/dawg.jpg">
+						<img class="user-img rounded-circle" src="/images/dawg.jpg">
 						<h5 class="card-title name">${author}</h5>
 						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
 						<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
@@ -116,6 +118,18 @@
 				</div>`);
 			};
 		});
+
+		var showNewTweet = function(author, handle, content) {
+			$(".tweet-container").prepend(`<div class="card see-content">
+				<div class="card-body">
+					<img class="user-img rounded-circle" src="/images/dawg.jpg">
+					<h5 class="card-title name">${author}</h5>
+					<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
+					<p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+					<button class="btn-like" numlikes="1"><span class="far fa-heart red"></span> 1</button>
+				</div>
+			</div>`);
+    	};
 	</script>
 </body>
 </html>

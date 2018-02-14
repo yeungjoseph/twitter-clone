@@ -49,23 +49,8 @@
 					</div>
 				</div>
 				<div class="tweet-container">
-				<% for (var i = tweets.length - 1; i > -1; i--) { %>
-					<% if (user.following.includes(tweets[i].handle) || tweets[i].handle === user.handle) { %>
-					<div class="card see-content">
-						<div class="card-body post" tweetID="<%= tweets[i]._id %>">
-							<img class="user-img rounded-circle" src="/images/dawg.jpg">
-							<h5 class="card-title name"><%= tweets[i].author %></h5>
-							<h6 class="card-subtitle handle"><a href="/user/<%= tweets[i].handle %>"><%= tweets[i].handle %></a></h6>
-							<p class="card-text"><%- tweets[i].content.replace(/\n/g, '<br/>') %></p>
-							<% if (tweets[i].likes.includes(user.handle)) { %>
-							<button class="btn-unlike" numlikes="<%= tweets[i].likes.length %>"><span class="fas fa-heart red"></span> <%= tweets[i].likes.length %></button>
-							<% } else { %>
-							<button class="btn-like" numlikes="<%= tweets[i].likes.length %>"><span class="far fa-heart red"></span> <%= tweets[i].likes.length %></button>
-							<% } %>
-						</div>
-					</div>
-					<% } %>
-				<% } %>
+					<!-- DOM-loaded tweets go here -->
+					<i class="fas fa-spinner fa-spin"></i>
 				</div>
 			</div>
 			<div class="col-md">
@@ -84,9 +69,25 @@
 	<script>
 		$(function() {
 			var socket = io();
+			var userID = "<%= user._id %>"
 
 			socket.on('newTweet', function(tweet) {
 				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content, tweet.data._id);
+			});
+
+			// Show all tweets of people that the user is following
+			$.ajax({
+				method: 'GET',
+				url: `/home_tweet/${userID}`
+			})
+			.done(function(tweets) {
+				$('.tweet-container > i').remove();
+				tweets.forEach(function(tweet) {
+					// if liked
+					createTweet(tweet.author, tweet.handle, tweet.content, 
+						tweet._id);
+					// if not liked
+				});
 			});
 
 			$("#tweet-send").click(function(e) {

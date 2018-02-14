@@ -10,15 +10,20 @@ router.use(auth.requireLogin);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  tweetModel.find({}, function(err, tweets) {
-    if (err) return res.status(500).send(err);
-    res.render('main', { tweets: tweets });
-  });
+    res.render('main');
 });
 
 router.get('/logout', function (req, res) {
 	req.session.reset();
 	res.redirect('/login');
+});
+router.get('/home_tweet/:id', function(req, res, next) {
+	var show = req.user.following;
+	show.push(req.user.handle);
+  tweetModel.find({ handle: {$in: show}}, function(err, tweets) {
+		if (err) return res.status(500).send(err);
+    res.json(tweets);
+  });
 });
 
 router.post('/tweet', function(req, res) {

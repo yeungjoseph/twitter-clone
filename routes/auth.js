@@ -1,5 +1,4 @@
 var express = require('express');
-var bcrypt = require('bcrypt');
 var userModel = require('../models/user');
 
 var router = express.Router();
@@ -14,18 +13,19 @@ router.get('/login', function(req, res) {
 router.post('/login', function(req, res) {
   userModel.findOne({ email: req.body.email }, function (err, user) {
     if (err) 
-        return res.status(500).send(err);
-    
+        return res.status(500).send(err);   
     if (user != null) {
-        bcrypt.compare(req.body.password.trim(), user.password,
-            function(err, success) {
-                if (err) return res.status(500).send(err);
+        user.checkPassword(req.body.password)
+            .then(function(success) {
                 if (success) {
                     req.session.user = user;
                     return res.redirect('/');
                 }
                 return res.render('login', { login_error: 'Incorrect email or password.' });
-            });
+            })
+            .catch(function(err) {
+                return res.status(500).send(err);
+            })
     }  
     else 
         res.render('login', { login_error: 'Incorrect email or password.' });
@@ -33,24 +33,21 @@ router.post('/login', function(req, res) {
 });
 
 router.post('/user', function(req, res) {
-    bcrypt.hash(req.body.password.trim(), saltRounds,
-        function(err, hash) {
-            var newUser = new userModel({
-                display_name: req.body.display_name,
-                handle: req.body.handle.trim(),
-                email: req.body.email.trim(),
-                password: hash,
-                tweetCount: 0,
-            });
-            newUser.save(function(err, user) {
-                if (err) {
-                    console.log(err);
-                    return res.render('login', { reg_error: 'Username or email already taken!' });
-                }
-                req.session.user = user;
-                res.redirect('/');
-            });    
+    var newUser = new userModel({
+        display_name: req.body.display_name,
+        handle: req.body.handle.trim(),
+        email: req.body.email.trim(),
+        password: userModel.hashPassword(req.body.password.trim(), saltRounds),
+        tweetCount: 0,
     });
+    newUser.save(function(err, user) {
+        if (err) {
+            console.log(err);
+            return res.render('login', { reg_error: 'Username or email already taken!' });
+        }
+        req.session.user = user;
+        res.redirect('/');
+    });    
 });
 
 

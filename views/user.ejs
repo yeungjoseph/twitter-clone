@@ -77,6 +77,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	
+	<script src="/javascripts/likes.js"></script>
+
 	<script>
 		$(function() {
 			$(".follow-container").on("click", ".follow-btn", function() {
@@ -110,45 +112,6 @@
 					button.text("Follow");
 				});
 			});
-
-			$(".post").on('click', '.btn-like', function(e) {
-				var button = $(this);
-				var likes = Number(button.attr("numlikes"));
-				var tweetID = button.parent().attr("tweetID");
-				var handle = $(".user-handle").text();
-
-				$.ajax({
-					method: 'POST',
-					url: `/tweet/like/${tweetID}`,
-					data : { handle: handle }
-				})
-				.done(function() {
-					button.attr("numlikes", likes + 1);
-					button.html(`<span class="fas fa-heart red"></span> ${likes+1}`);
-					button.removeClass('btn-like');
-					button.addClass('btn-unlike');
-				});		
-			});
-
-			$(".post").on('click', '.btn-unlike', function(e) {
-				var button = $(this);
-				var likes = Number(button.attr("numlikes"));
-				var tweetID = button.parent().attr("tweetID");
-				var handle = $(".user-handle").text();
-
-				$.ajax({
-					method: 'DELETE',
-					url: `/tweet/like/${tweetID}`,
-					data: { handle: handle }
-				})
-				.done(function() {
-					button.attr("numlikes", likes - 1);
-					button.html(`<span class="far fa-heart red"></span> ${likes-1}`);
-					button.removeClass('btn-unlike');
-					button.addClass('btn-like');
-				});
-			});
-
 		});
 	</script>
 </body>

@@ -87,7 +87,7 @@
 			var socket = io();
 
 			socket.on('newTweet', function(tweet) {
-				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content);
+				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content,  tweet.data._id);
 			});
 
 			$(".follow-container").on("click", ".follow-btn", function() {
@@ -122,9 +122,9 @@
 				});
 			});
 
-			var showNewTweet = function(author, handle, content) {
+			var showNewTweet = function(author, handle, content, id) {
 				$(".tweet-container").prepend(`<div class="card see-content">
-					<div class="card-body">
+					<div class="card-body" tweetID="${id}">
 						<img class="user-img rounded-circle" src="/images/dawg.jpg">
 						<h5 class="card-title name">${author}</h5>
 						<h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>

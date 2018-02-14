@@ -26,17 +26,22 @@ router.post('/tweet', function(req, res) {
     author: req.body.author,
     handle: req.body.handle,
 		content: req.body.content,
-		likes: [req.user.handle]
+		likes: [req.user.handle],
   });
   newTweet.save(function(err, tweet) {
     if (err) { 
       console.log(err);
       return res.status(500).send(err);
-    }
-	// Broadcast to socket listeners
+    }		
+	// Update tweet count of author
+	userModel.findByIdAndUpdate(req.user._id, {$inc : {'tweetCount': 1}},
+		function(err, user) {
+			if (err) return res.status(500).send(err);
+	});	  
+ 	// Broadcast to socket listeners
 	var room = req.body.handle;
 	io.instance().sockets.in(room).emit('newTweet', { data: tweet.toObject() });
-    res.status(201).json(tweet);
+		res.status(201).json(tweet);
   });
 });
 

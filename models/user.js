@@ -6,6 +6,7 @@ var schema = mongoose.Schema({
 	email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
     following: [{ type: String }],
+    tweetCount : { type: Number, required: true}
 });
 
 module.exports = mongoose.model('users', schema);

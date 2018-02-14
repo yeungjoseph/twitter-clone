@@ -39,7 +39,8 @@ router.post('/user', function(req, res) {
                 display_name: req.body.display_name,
                 handle: req.body.handle.trim(),
                 email: req.body.email.trim(),
-                password: hash
+                password: hash,
+                tweetCount: 0,
             });
             newUser.save(function(err, user) {
                 if (err) {

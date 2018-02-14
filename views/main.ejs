@@ -30,7 +30,7 @@
 						<h3 class="card-title username"><%= user.display_name %></h3>
 						<h6 class="card-subtitle"><a href="/user/<%= user.handle %>" class="user-handle"><%= user.handle %></a></h6>
 						<div class="tweet-num">
-							<h6>Tweets</h6><p>8</p>
+							<h6>Tweets</h6><p id="twcount"><%= user.tweetCount %></p>
 						</div>
 						<div class="following-num">
 								<h6>Following</h6><p><%= user.following.length %></p>
@@ -105,6 +105,9 @@
 				.done(function(newTweet) {
 					createTweet(author, handle, content, newTweet._id);
 					$("#tweet").val("");
+					// Increment tweet counter
+					var twcount = Number($("#twcount").text());
+					$("#twcount").text(twcount + 1);
 				});
 			});
 

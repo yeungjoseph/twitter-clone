@@ -30,7 +30,7 @@
 						<h3 class="card-title username"><%= profile.display_name %></h3>
 						<h6 class="card-subtitle"><a href="/user/<%= profile.handle %>" class="user-handle"><%= profile.handle %></a></h6>
 						<div class="tweet-num">
-							<h6>Tweets</h6><p>8</p>
+							<h6>Tweets</h6><p><%= profile.tweetCount %></p>
 						</div>
 						<div class="following-num">
 								<h6>Following</h6><p><%= profile.following.length %></p>

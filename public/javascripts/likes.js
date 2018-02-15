@@ -37,3 +37,26 @@ $(function() {
         });
     });
 });
+
+var showLikedTweet = function(author, handle, content, id, likes) {
+    $(".tweet-container").prepend(`<div class="card see-content">
+        <div class="card-body" tweetID="${id}">
+            <img class="user-img rounded-circle" src="/images/dawg.jpg">
+            <h5 class="card-title name">${author}</h5>
+            <h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
+            <p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+            <button class="btn-unlike" numlikes="${likes}"><span class="fas fa-heart red"></span> ${likes}</button>
+        </div>
+    </div>`);
+};
+var showNewTweet = function(author, handle, content, id, likes) {
+    $(".tweet-container").prepend(`<div class="card see-content">
+        <div class="card-body" tweetID="${id}">
+            <img class="user-img rounded-circle" src="/images/dawg.jpg">
+            <h5 class="card-title name">${author}</h5>
+            <h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
+            <p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
+            <button class="btn-like" numlikes="${likes}"><span class="far fa-heart red"></span> ${likes}</button>
+        </div>
+    </div>`);
+};

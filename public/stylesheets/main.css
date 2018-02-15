@@ -104,6 +104,14 @@ img.user-img {
     margin-right: 7px;
 }
 
+.loading {
+    font-size: 2rem;
+    color: rgb(184, 184, 184);
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}
+
 /* Begin login page styling */
 .login-left {
     color: white;

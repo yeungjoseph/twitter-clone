@@ -72,7 +72,8 @@
 	<script>
 		$(function() {
 			var socket = io();
-			var userHandle = "<%= profile.handle %>"
+			var profileHandle = "<%= profile.handle %>"
+			var userHandle = "<%= user.handle %>"
 
 			socket.on('newTweet', function(tweet) {
 				showNewTweet(tweet.data.author, tweet.data.handle, tweet.data.content,
@@ -81,7 +82,7 @@
 
 			$.ajax({
 				method: 'GET',
-				url: `/user/${userHandle}/tweets`
+				url: `/user/${profileHandle}/tweets`
 			})
 			.done(function(tweets) {
 				$('.tweet-container > i').remove();

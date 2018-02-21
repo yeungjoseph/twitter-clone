@@ -41,7 +41,7 @@ $(function() {
 var showLikedTweet = function(author, handle, content, id, likes) {
     $(".tweet-container").prepend(`<div class="card see-content">
         <div class="card-body" tweetID="${id}">
-            <img class="user-img rounded-circle" src="/images/dawg.jpg">
+            <img class="user-img rounded-circle" src="http://127.0.0.1:3000/images/dawg.jpg">
             <h5 class="card-title name">${author}</h5>
             <h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
             <p class="card-text">${content.replace(/\n/g, '<br/>')}</p>
@@ -52,7 +52,7 @@ var showLikedTweet = function(author, handle, content, id, likes) {
 var showNewTweet = function(author, handle, content, id, likes) {
     $(".tweet-container").prepend(`<div class="card see-content">
         <div class="card-body" tweetID="${id}">
-            <img class="user-img rounded-circle" src="/images/dawg.jpg">
+            <img class="user-img rounded-circle" src="http://127.0.0.1:3000/images/dawg.jpg">
             <h5 class="card-title name">${author}</h5>
             <h6 class="card-subtitle handle"><a href="/user/${handle}">${handle}</a></h6>
             <p class="card-text">${content.replace(/\n/g, '<br/>')}</p>

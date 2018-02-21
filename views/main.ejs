@@ -5,7 +5,7 @@
 	<title>Twitter</title>
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="/stylesheets/main.css">
+	<link rel="stylesheet" href="http://127.0.0.1:3000/stylesheets/main.css">
 </head>
 <body class="main">
 	<nav class="navbar navbar-expand-md bg-light">
@@ -17,16 +17,16 @@
 			<a class="nav-link nav-item" href="#">Messages</a>
 		</div>
 		<div class="navbar-nav">
-			<a class="nav-link nav-item" href="/logout">Logout</a>
+			<a class="nav-link nav-item" id="logout" href="http://127.0.0.1:3000/logout">Logout</a>
 		</div>
 	</nav>
 	<div class="container-fluid" id="main">			  
 		<div class="row flex-nowrap">
 			<div class="col-md">
 				<div class="card" id="user" style="width: 18rem;">
-					<img class="card-img-top" src="/images/blue.png" alt="Card image cap">
+					<img class="card-img-top" src="http://127.0.0.1:3000/images/blue.png" alt="Card image cap">
 					<div class="card-body profile">
-						<img class="profile-img rounded-circle" src="/images/dawg.jpg">
+						<img class="profile-img rounded-circle" src="http://127.0.0.1:3000/images/dawg.jpg">
 						<h3 class="card-title username"><%= user.display_name %></h3>
 						<h6 class="card-subtitle"><a href="/user/<%= user.handle %>" class="user-handle"><%= user.handle %></a></h6>
 						<div class="tweet-num">
@@ -44,7 +44,7 @@
 			<div class="col-md-6 mid-content">
 				<div class="tweet-form-container">
 					<div class="form-group tweet">
-						<textarea class="form-control" id="tweet" placeholder="Tweet.."></textarea>
+						<textarea class="form-control tweet-form" id="tweet" placeholder="Tweet.."></textarea>
 						<button class="btn btn-primary" type="submit" id="tweet-send">Tweet!</button>
 					</div>
 				</div>
@@ -58,13 +58,13 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="/javascripts/likes.js"></script>
+	<script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
+	<script src="http://127.0.0.1:3000/javascripts/likes.js"></script>
 
 	<script>
 		$(function() {
@@ -79,7 +79,10 @@
 			// Show all tweets of people that the user is following
 			$.ajax({
 				method: 'GET',
-				url: '/home_tweet'
+				url: 'http://127.0.0.1:3000/home_tweet',
+				xhrFields: {
+					withCredentials: true
+				},
 			})
 			.done(function(tweets) {
 				$('.tweet-container > i').remove();
@@ -95,8 +98,10 @@
 						tweet._id, tweet.likes.length);
 					}
 				});
+			})
+			.fail(function (jqXHR, textStatus) {
+				res.status(500).send('fail');
 			});
-
 			$("#tweet-send").click(function(e) {
 				var author = $(".username").text();
 				var handle = $(".user-handle").text();
